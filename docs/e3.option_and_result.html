@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Option and Result | Learning Rust</title>
+  <meta name="description" content="Rust Programming Language Tutorials">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://learning-rust.github.io/docs/e3.option_and_result.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://learning-rust.github.io/docs/e3.option_and_result.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" href="/icon.png">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/tomorrow.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+  <!-- Google Analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-111784617-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="header-outer">
+  <header id="header" class="wrapper">
+    <div id="header-inner" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Learning Rust</a>
+      </h1>
+      <nav id="main-nav">
+        <a href="/docs/a1.why_rust.html" class="main-nav-link">Docs</a>
+        <a href="https://github.com/learning-rust/site" target="_blank" rel="noopener external nofollow noreferrer" class="main-nav-link"><i class="fab fa-github-alt"></i></a>
+        <div id="search-input-wrap">
+          <div id="search-input-icon">
+            <i class="fa fa-search"></i>
+          </div>
+          <input type="search" id="search-input" placeholder="Search...">
+        </div>
+      </nav>
+      <div id="lang-select-wrap">
+        <label id="lang-select-label"><i class="fa fa-language"></i><span>English</span></label>
+        <select id="lang-select" data-canonical="docs/e3.option_and_result.html">
+          
+            <option value="en" selected>English</option>
+          
+        </select>
+      </div>
+      <a id="mobile-nav-toggle">
+        <span class="mobile-nav-toggle-bar"></span>
+        <span class="mobile-nav-toggle-bar"></span>
+        <span class="mobile-nav-toggle-bar"></span>
+      </a>
+    </div>
+  </header>
+</div>
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Option and Result</h1>
+                <a href="https://github.com/learning-rust/site/edit/master/source/docs/e3.option_and_result.md" target="_blank" rel="noopener external nofollow noreferrer" class="article-edit-link" title="Improve this doc"><i class="fa fa-pencil"></i></a>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h2 id="Why-Option-and-Result" class="article-heading"><a href="#Why-Option-and-Result" class="headerlink" title="Why Option and Result?"></a>Why Option and Result?<a class="article-anchor" href="#Why-Option-and-Result" aria-hidden="true"></a></h2><p>Many languages use <strong><code>null</code>\ <code>nil</code>\ <code>undefined</code> types</strong> to represent empty outputs, and <strong><code>Exceptions</code></strong> to handle errors. Rust skips using both, especially to prevent issues like <strong>null pointer exceptions, sensitive data leakages through exceptions</strong> and etc. Instead, Rust provides two special <strong>generic enums</strong>;<code>Option</code> and <code>Result</code> to deal with above cases.</p>
+<blockquote>
+<p>💭 In the previous sections, we have discussed about the basics of <a href="b3.enums.html">enums</a>, <a href="b4.generics.html">generics</a> and <a href="b4.generics.html#Generalizing-enums"><code>Result</code> &amp; <code>Option</code> types</a>.</p>
+</blockquote>
+<p>As you know,</p>
+<ul>
+<li>An <strong>optional value</strong> can have either <strong>Some</strong> value or no value/ <strong>None</strong>.</li>
+<li>A <strong>result</strong> can represent either success/ <strong>Ok</strong> or failure/ <strong>Err</strong></li>
+</ul>
+<pre><code class="rust">// An output can have either Some value or no value/ None.
+enum Option&lt;T&gt; { // T is a generic and it can contain any type of value.
+    Some(T),
+    None,
+}
+
+// A result can represent either success/ Ok or failure/ Err.
+enum Result&lt;T, E&gt; { // T and E are generics. T can contain any type of value, E can be any error.
+    Ok(T),
+    Err(E),
+}</code></pre>
+<p>💭 Also as we discussed in <a href="d7.std_primitives_and_preludes.html#Preludes">preludes</a>, not only <code>Option</code> and <code>Result</code>, and also their variants are in preludes. So, we can use them directly without using namespaces in the code.</p>
+<h2 id="Basic-usages-of-Option" class="article-heading"><a href="#Basic-usages-of-Option" class="headerlink" title="Basic usages of Option"></a>Basic usages of Option<a class="article-anchor" href="#Basic-usages-of-Option" aria-hidden="true"></a></h2><p>When writing a function or data type, </p>
+<ul>
+<li>if an <strong>argument</strong> of the function is optional,</li>
+<li>If the function is non-void and if the output it <strong>returns</strong> can be empty,</li>
+<li>If the value, of a <strong>property of the data type</strong> can be empty,<br>We have to use their data type as an <code>Option</code> type</li>
+</ul>
+<p>For example, if the function outputs a <code>&amp;str</code> value and the output can be empty, the return type of the function should set as <code>Option&lt;&amp;str&gt;</code>.</p>
+<pre><code class="rust">fn get_an_optional_value() -&gt; Option&lt;&amp;str&gt; {
+
+    //if the optional value is not empty
+    return Some(&quot;Some value&quot;);
+
+    //else
+    None
+}</code></pre>
+<p>Same way, if the value of a property of a data type can be empty or optional like the <code>middle_name</code> of <code>Name</code> data type in the following example, we should set its data type as an <code>Option</code> type.</p>
+<pre><code class="rust">struct Name {
+  first_name: String,
+  middle_name: Option&lt;String&gt;, // middle_name can be empty
+  last_name: String,
+}</code></pre>
+<p>💭 As you know, we can use pattern matching to catch the relevant return type (<code>Some</code>/ <code>None</code>) via <code>match</code>. There is a function to get the current user’s home directory in <strong><code>std::env</code></strong> as <strong><a href="https://doc.rust-lang.org/std/env/fn.home_dir.html" target="_blank" rel="noopener external nofollow noreferrer"><code>home_dir()</code></a></strong>. Because of all users doesn’t have a home directory in the systems like Linux, home directory of the user can be optional. So it returns an <code>Option</code> type; <a href="https://doc.rust-lang.org/std/path/struct.PathBuf.html" target="_blank" rel="noopener external nofollow noreferrer"><code>Option&lt;PathBuf&gt;</code></a>.</p>
+<pre><code class="rust">use std::env;
+
+fn main() {
+    let home_path = env::home_dir();
+    match home_path {
+        Some(p) =&gt; println!(&quot;{:?}&quot;, p), // This prints &quot;/root&quot;, if you run this in Rust playground
+        None =&gt; println!(&quot;Can not find the home directory!&quot;),
+    }
+}</code></pre>
+<p>⭐ However, when using optional arguments with functions, we have to pass <code>None</code> values for empty arguments while calling the function.</p>
+<pre><code class="rust">fn get_full_name(fname: &amp;str, lname: &amp;str, mname: Option&lt;&amp;str&gt;) -&gt; String { // middle name can be empty
+  match mname {
+    Some(n) =&gt; format!(&quot;{} {} {}&quot;, fname, n, lname),
+    None =&gt; format!(&quot;{} {}&quot;, fname, lname),
+  }
+}
+
+fn main() {
+  println!(&quot;{}&quot;, get_full_name(&quot;Galileo&quot;, &quot;Galilei&quot;, None));
+  println!(&quot;{}&quot;, get_full_name(&quot;Leonardo&quot;, &quot;Vinci&quot;, Some(&quot;Da&quot;)));
+}
+
+// 💡 Better create a struct as Person with fname, lname, mname fields and create a impl function as full_name()</code></pre>
+<p>🔎 Other than that, <code>Option</code> types are used with <strong>nullable pointers</strong> in Rust. Because there are <strong>no null pointers in Rust</strong>, the pointer types should point to a valid location. So if a pointer can be nullable, we have use <code>Option&lt;Box&lt;T&gt;&gt;</code> .</p>
+<h2 id="Basic-usages-of-Result" class="article-heading"><a href="#Basic-usages-of-Result" class="headerlink" title="Basic usages of Result"></a>Basic usages of Result<a class="article-anchor" href="#Basic-usages-of-Result" aria-hidden="true"></a></h2><p>If a function can produce an error, we have to use a <code>Result</code> type by <strong>combining the data type of the valid output and the data type of the error</strong>. For example, if the data type of the valid output is <code>u64</code> and error type is <code>String</code>, return type should be <code>Result&lt;u64, String&gt;</code>.</p>
+<pre><code class="rust">fn function_with_error() -&gt; Result&lt;u64, String&gt; {
+
+    //if error happens
+    return Err(&quot;The error message&quot;.to_string());
+
+    // else, return valid output
+    Ok(255)
+}</code></pre>
+<p>💭 As you know, we can use the pattern matching to catch the relevant return types (<code>Ok</code>/<code>Err</code>) via <code>match</code>. There is a function to fetch the value of any environment variable in <strong><code>std::env</code></strong> as <strong><a href="https://doc.rust-lang.org/std/env/fn.var.html" target="_blank" rel="noopener external nofollow noreferrer"><code>var()</code></a></strong> . Its input is the environment variable name. This can produce an error, if we passes a wrong environment variable or the program can not extract the value of the environment variable while running. So, its return type is a <code>Result</code> type; <a href="https://doc.rust-lang.org/std/env/enum.VarError.html" target="_blank" rel="noopener external nofollow noreferrer"><code>Result&lt;String, VarError&gt;</code></a>.</p>
+<pre><code class="rust">use std::env;
+
+fn main() {
+    let key = &quot;HOME&quot;;
+    match env::var(key) {
+        Ok(v) =&gt; println!(&quot;{}&quot;, v), // This prints &quot;/root&quot;, if you run this in Rust playground
+        Err(e) =&gt; println!(&quot;{}&quot;, e), // This prints &quot;environment variable not found&quot;, if you give a nonexistent environment variable
+    }
+}</code></pre>
+<h2 id="is-some-is-none-is-ok-is-err" class="article-heading"><a href="#is-some-is-none-is-ok-is-err" class="headerlink" title="is_some(), is_none(), is_ok(), is_err()"></a>is_some(), is_none(), is_ok(), is_err()<a class="article-anchor" href="#is-some-is-none-is-ok-is-err" aria-hidden="true"></a></h2><p>Other than <code>match</code> expressions, Rust provides <code>is_some()</code> , <code>is_none()</code> and <code>is_ok()</code> , <code>is_err()</code> functions to identify the return type.</p>
+<pre><code class="rust">fn main() {
+    let x: Option&lt;&amp;str&gt; = Some(&quot;Hello, world!&quot;);
+    assert_eq!(x.is_some(), true);
+    assert_eq!(x.is_none(), false);
+
+    let y: Result&lt;i8, &amp;str&gt; = Ok(10);
+    assert_eq!(y.is_ok(), true);
+    assert_eq!(y.is_err(), false);
+}</code></pre>
+<h2 id="ok-err-for-Result-types" class="article-heading"><a href="#ok-err-for-Result-types" class="headerlink" title="ok(), err() for Result types"></a>ok(), err() for Result types<a class="article-anchor" href="#ok-err-for-Result-types" aria-hidden="true"></a></h2><p>In addition to that Rust provides <code>ok()</code> and <code>err()</code> for <code>Result</code> types. They convert the <code>Ok&lt;T&gt;</code> and <code>Err&lt;E&gt;</code> values of a <strong><code>Result</code> type to <code>Option</code> types</strong>.</p>
+<pre><code class="rust">fn main() {
+    let o: Result&lt;i8, &amp;str&gt; = Ok(8);
+    let e: Result&lt;i8, &amp;str&gt; = Err(&quot;message&quot;);
+
+    assert_eq!(o.ok(), Some(8)); // Ok(v) ok = Some(v)
+    assert_eq!(e.ok(), None);    // Err(v) ok = None
+
+    assert_eq!(o.err(), None);            // Ok(v) err = None
+    assert_eq!(e.err(), Some(&quot;message&quot;)); // Err(v) err = Some(v)
+}</code></pre>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2019-07-31T15:31:46.000Z" itemprop="dateModified">Last updated: 2019-07-31</time>
+                <a href="e2.panicking.html" class="article-footer-prev" title="Panicking"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="e4.unwrap_and_expect.html" class="article-footer-next" title="Unwrap and Expect"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">What's on this Page</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Option-and-Result"><span class="toc-text">Why Option and Result?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-usages-of-Option"><span class="toc-text">Basic usages of Option</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Basic-usages-of-Result"><span class="toc-text">Basic usages of Result</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#is-some-is-none-is-ok-is-err"><span class="toc-text">is_some(), is_none(), is_ok(), is_err()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ok-err-for-Result-types"><span class="toc-text">ok(), err() for Result types</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top ⇡</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Documentation</strong><a href="index.html" class="sidebar-link">Overview</a><strong class="sidebar-title">Basics</strong><a href="a1.why_rust.html" class="sidebar-link">Why Rust?</a><a href="a2.installation.html" class="sidebar-link">Installation</a><a href="a3.hello_world.html" class="sidebar-link">Hello World</a><a href="a4.cargo,crates_and_basic_project_structure.html" class="sidebar-link">Cargo, Crates and Basic Project Structure</a><a href="a5.comments_and_documenting_the_code.html" class="sidebar-link">Comments and Documenting the code</a><a href="a6.variable_bindings,constants_and_statics.html" class="sidebar-link">Variable bindings, Constants and Statics</a><a href="a7.functions.html" class="sidebar-link">Functions</a><a href="a8.primitive_data_types.html" class="sidebar-link">Primitive Data Types</a><a href="a9.operators.html" class="sidebar-link">Operators</a><a href="a10.control_flows.html" class="sidebar-link">Control Flows</a><strong class="sidebar-title">Beyond The Basics</strong><a href="b1.vectors.html" class="sidebar-link">Vectors</a><a href="b2.structs.html" class="sidebar-link">Structs</a><a href="b3.enums.html" class="sidebar-link">Enums</a><a href="b4.generics.html" class="sidebar-link">Generics</a><a href="b5.impls_and_traits.html" class="sidebar-link">Impls and Traits</a><strong class="sidebar-title">The Tough Part</strong><a href="c1.ownership.html" class="sidebar-link">Ownership</a><a href="c2.borrowing.html" class="sidebar-link">Borrowing</a><a href="c3.lifetimes.html" class="sidebar-link">Lifetimes</a><strong class="sidebar-title">Let's Get It Started</strong><a href="d1.code_organization.html" class="sidebar-link">Code Organization</a><a href="d2.functions.html" class="sidebar-link">Functions</a><a href="d3.modules.html" class="sidebar-link">Modules</a><a href="d4.crates.html" class="sidebar-link">Crates</a><a href="d5.workspaces.html" class="sidebar-link">Workspaces</a><a href="d6.use.html" class="sidebar-link">Use</a><a href="d7.std_primitives_and_preludes.html" class="sidebar-link">STD, Primitives and Preludes</a><strong class="sidebar-title">Error Handling</strong><a href="e1.smart_compiler.html" class="sidebar-link">Smart Compiler</a><a href="e2.panicking.html" class="sidebar-link">Panicking</a><a href="e3.option_and_result.html" class="sidebar-link current">Option and Result</a><a href="e4.unwrap_and_expect.html" class="sidebar-link">Unwrap and Expect</a><a href="e5.error_and_none_propagation.html" class="sidebar-link">Error and None Propagation</a><a href="e6.combinators.html" class="sidebar-link">Combinators</a><a href="e7.custom_error_types.html" class="sidebar-link">Custom Error Types</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <div id="footer-outer">
+  <footer id="footer" class="wrapper">
+    <div class="inner">
+      <div id="footer-copyright">
+        &copy; 2020 <a href="https://github.com/dumindu" rel="external nofollow noreferrer" target="_blank">Dumindu Madunuwan</a><br>
+        Powered by <a href="http://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a> &amp; <a href="https://github.com/hexojs/site/tree/master/themes/navy" rel="external nofollow noreferrer" target="_blank">Navy</a> theme.
+      </div>
+      <div id="footer-links">
+        <a class="footer-link" href="https://www.buymeacoffee.com/dumindu" rel="external nofollow noreferrer" target="_blank">
+          <img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" >
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/a1.why_rust.html" class="mobile-nav-link">Docs</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/learning-rust/site" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Documentation</strong><a href="index.html" class="mobile-nav-link">Overview</a><strong class="mobile-nav-title">Basics</strong><a href="a1.why_rust.html" class="mobile-nav-link">Why Rust?</a><a href="a2.installation.html" class="mobile-nav-link">Installation</a><a href="a3.hello_world.html" class="mobile-nav-link">Hello World</a><a href="a4.cargo,crates_and_basic_project_structure.html" class="mobile-nav-link">Cargo, Crates and Basic Project Structure</a><a href="a5.comments_and_documenting_the_code.html" class="mobile-nav-link">Comments and Documenting the code</a><a href="a6.variable_bindings,constants_and_statics.html" class="mobile-nav-link">Variable bindings, Constants and Statics</a><a href="a7.functions.html" class="mobile-nav-link">Functions</a><a href="a8.primitive_data_types.html" class="mobile-nav-link">Primitive Data Types</a><a href="a9.operators.html" class="mobile-nav-link">Operators</a><a href="a10.control_flows.html" class="mobile-nav-link">Control Flows</a><strong class="mobile-nav-title">Beyond The Basics</strong><a href="b1.vectors.html" class="mobile-nav-link">Vectors</a><a href="b2.structs.html" class="mobile-nav-link">Structs</a><a href="b3.enums.html" class="mobile-nav-link">Enums</a><a href="b4.generics.html" class="mobile-nav-link">Generics</a><a href="b5.impls_and_traits.html" class="mobile-nav-link">Impls and Traits</a><strong class="mobile-nav-title">The Tough Part</strong><a href="c1.ownership.html" class="mobile-nav-link">Ownership</a><a href="c2.borrowing.html" class="mobile-nav-link">Borrowing</a><a href="c3.lifetimes.html" class="mobile-nav-link">Lifetimes</a><strong class="mobile-nav-title">Let's Get It Started</strong><a href="d1.code_organization.html" class="mobile-nav-link">Code Organization</a><a href="d2.functions.html" class="mobile-nav-link">Functions</a><a href="d3.modules.html" class="mobile-nav-link">Modules</a><a href="d4.crates.html" class="mobile-nav-link">Crates</a><a href="d5.workspaces.html" class="mobile-nav-link">Workspaces</a><a href="d6.use.html" class="mobile-nav-link">Use</a><a href="d7.std_primitives_and_preludes.html" class="mobile-nav-link">STD, Primitives and Preludes</a><strong class="mobile-nav-title">Error Handling</strong><a href="e1.smart_compiler.html" class="mobile-nav-link">Smart Compiler</a><a href="e2.panicking.html" class="mobile-nav-link">Panicking</a><a href="e3.option_and_result.html" class="mobile-nav-link current">Option and Result</a><a href="e4.unwrap_and_expect.html" class="mobile-nav-link">Unwrap and Expect</a><a href="e5.error_and_none_propagation.html" class="mobile-nav-link">Error and None Propagation</a><a href="e6.combinators.html" class="mobile-nav-link">Combinators</a><a href="e7.custom_error_types.html" class="mobile-nav-link">Custom Error Types</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-language"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/e3.option_and_result.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+
+
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+<!-- Algolia -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/languages/rust.min.js"></script>
+<script type="text/javascript">
+document.getElementById('search-input-wrap').classList.add('on');
+docsearch({
+  apiKey: '219b278e94416804a2d4bb47b3bf3d0b',
+  indexName: 'learning_rust',
+  inputSelector: '#search-input'
+});
+
+hljs.initHighlightingOnLoad();
+</script>
+
+
+</body>
+</html>

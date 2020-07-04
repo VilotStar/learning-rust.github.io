@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Unwrap and Expect | Learning Rust</title>
+  <meta name="description" content="Rust Programming Language Tutorials">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html">
+  <!-- Alternative links -->
+  
+    
+      <link rel="alternative" hreflang="en" href="https://learning-rust.github.io/docs/e4.unwrap_and_expect.html">
+    
+  
+  <!-- Icon -->
+  <link rel="apple-touch-icon" href="/icon.png">
+  <!-- CSS -->
+  <!-- build:css build/css/navy.css -->
+  
+<link rel="stylesheet" href="/css/navy.css">
+
+  <!-- endbuild -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/styles/tomorrow.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+  <!-- Google Analytics -->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-111784617-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="header-outer">
+  <header id="header" class="wrapper">
+    <div id="header-inner" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Learning Rust</a>
+      </h1>
+      <nav id="main-nav">
+        <a href="/docs/a1.why_rust.html" class="main-nav-link">Docs</a>
+        <a href="https://github.com/learning-rust/site" target="_blank" rel="noopener external nofollow noreferrer" class="main-nav-link"><i class="fab fa-github-alt"></i></a>
+        <div id="search-input-wrap">
+          <div id="search-input-icon">
+            <i class="fa fa-search"></i>
+          </div>
+          <input type="search" id="search-input" placeholder="Search...">
+        </div>
+      </nav>
+      <div id="lang-select-wrap">
+        <label id="lang-select-label"><i class="fa fa-language"></i><span>English</span></label>
+        <select id="lang-select" data-canonical="docs/e4.unwrap_and_expect.html">
+          
+            <option value="en" selected>English</option>
+          
+        </select>
+      </div>
+      <a id="mobile-nav-toggle">
+        <span class="mobile-nav-toggle-bar"></span>
+        <span class="mobile-nav-toggle-bar"></span>
+        <span class="mobile-nav-toggle-bar"></span>
+      </a>
+    </div>
+  </header>
+</div>
+    <div id="content-wrap">
+  <div id="content" class="wrapper">
+    <div id="content-inner">
+      <article class="article-container" itemscope itemtype="http://schema.org/Article">
+        <div class="article-inner">
+          <div class="article">
+            <div class="inner">
+              <header class="article-header">
+                <h1 class="article-title" itemprop="name">Unwrap and Expect</h1>
+                <a href="https://github.com/learning-rust/site/edit/master/source/docs/e4.unwrap_and_expect.md" target="_blank" rel="noopener external nofollow noreferrer" class="article-edit-link" title="Improve this doc"><i class="fa fa-pencil"></i></a>
+              </header>
+              <div class="article-content" itemprop="articleBody">
+                <h2 id="unwrap" class="article-heading"><a href="#unwrap" class="headerlink" title="unwrap()"></a>unwrap()<a class="article-anchor" href="#unwrap" aria-hidden="true"></a></h2><ul>
+<li>If an <code>Option</code> type has <strong><code>Some</code></strong> value or a <code>Result</code> type has a <strong><code>Ok</code></strong> value, <strong>the value inside them</strong> passes to the next step.</li>
+<li>If the <code>Option</code> type has <strong><code>None</code></strong> value or the <code>Result</code> type has <strong><code>Err</code></strong> value, <strong>program panics</strong>; If <code>Err</code>, panics with the error message.</li>
+</ul>
+<p>The functionality is bit similar to the following codes, which are using <code>match</code> instead <code>unwrap()</code>.</p>
+<p>Example with <code>Option</code> and <code>match</code>, before using <code>unwrap()</code></p>
+<pre><code class="rust">fn main() {
+    let x;
+    match get_an_optional_value() {
+        Some(v) =&gt; x = v, // if Some(&quot;abc&quot;), set x to &quot;abc&quot;
+        None =&gt; panic!(), // if None, panic without any message
+    }
+
+    println!(&quot;{}&quot;, x); // &quot;abc&quot; ; if you change line 14 `false` to `true`
+}
+
+fn get_an_optional_value() -&gt; Option&lt;&amp;&#39;static str&gt; {
+
+    //if the optional value is not empty
+    if false {
+        return Some(&quot;abc&quot;);
+    }
+
+    //else
+    None
+}
+
+
+// --------------- Compile-time error ---------------
+thread &#39;main&#39; panicked at &#39;explicit panic&#39;, src/main.rs:5:17</code></pre>
+<p>Example with <code>Result</code> and <code>match</code>, before using <code>unwrap()</code></p>
+<pre><code class="rust">fn main() {
+    let x;
+    match function_with_error() {
+        Ok(v) =&gt; x = v, // if Ok(255), set x to 255
+        Err(e) =&gt; panic!(e), // if Err(&quot;some message&quot;), panic with error message &quot;some message&quot;
+    }
+
+    println!(&quot;{}&quot;, x); // 255 ; if you change line 13 `true` to `false`
+}
+
+fn function_with_error() -&gt; Result&lt;u64, String&gt; {
+    //if error happens
+    if true {
+        return Err(&quot;some message&quot;.to_string());
+    }
+
+    // else, return valid output
+    Ok(255)
+}
+
+
+// ---------- Compile-time error ----------
+thread &#39;main&#39; panicked at &#39;some message&#39;, src/main.rs:5:19</code></pre>
+<p>Same codes in above <code>main</code> functions can be written with <code>unwrap()</code> using two lines.</p>
+<pre><code class="rust">// 01. unwrap error message for None
+fn main() {
+    let x = get_an_optional_value().unwrap();
+
+    println!(&quot;{}&quot;, x);
+}
+
+// --------------- Compile-time error ---------------
+thread &#39;main&#39; panicked at &#39;called `Option::unwrap()` on a `None` value&#39;, libcore/option.rs:345:21
+
+
+// 02. unwrap error message for Err
+fn main() {
+    let x = function_with_error().unwrap();
+
+    println!(&quot;{}&quot;, x);
+}
+
+// --------------- Compile-time error ---------------
+thread &#39;main&#39; panicked at &#39;called `Result::unwrap()` on an `Err` value: &quot;some message&quot;&#39;, libcore/result.rs:945:5</code></pre>
+<p>⭐ But as you can see, when using <code>unwrap()</code> error messages are not showing the exact line numbers where the panic happens.</p>
+<h2 id="expect" class="article-heading"><a href="#expect" class="headerlink" title="expect()"></a>expect()<a class="article-anchor" href="#expect" aria-hidden="true"></a></h2><p>Similar to <code>unwrap()</code> but can set a custom message for the panics.</p>
+<pre><code class="rust">// 01. expect error message for None
+fn main() {
+    let n: Option&lt;i8&gt; = None;
+
+    n.expect(&quot;empty value returned&quot;);
+}
+
+// --------------- Compile-time error ---------------
+thread &#39;main&#39; panicked at &#39;empty value returned&#39;, libcore/option.rs:989:5
+
+
+// 02. expect error message for Err
+fn main() {
+    let e: Result&lt;i8, &amp;str&gt; = Err(&quot;some message&quot;);
+
+    e.expect(&quot;expect error message&quot;);
+}
+
+// --------------- Compile-time error ---------------
+thread &#39;main&#39; panicked at &#39;expect error message: &quot;some message&quot;&#39;, libcore/result.rs:945:5</code></pre>
+<h2 id="unwrap-err-and-expect-err-for-Result-types" class="article-heading"><a href="#unwrap-err-and-expect-err-for-Result-types" class="headerlink" title="unwrap_err() and expect_err() for Result types"></a>unwrap_err() and expect_err() for Result types<a class="article-anchor" href="#unwrap-err-and-expect-err-for-Result-types" aria-hidden="true"></a></h2><p>The opposite case of <code>unwrap()</code> and <code>expect()</code>; Panics with <code>Ok</code> values, instead <code>Err</code>. Both print the value inside <code>Ok</code> on the error message.</p>
+<p>💡 Usually use with tests.</p>
+<pre><code class="rust">// 01. unwrap_err error message for Ok
+fn main() {
+    let o: Result&lt;i8, &amp;str&gt; = Ok(8);
+
+    o.unwrap_err();
+}
+
+// ---------- Compile-time error ----------
+thread &#39;main&#39; panicked at &#39;called `Result::unwrap_err()` on an `Ok` value: 8&#39;, libcore/result.rs:945:5
+
+
+// 02. expect_err error message for Ok
+fn main() {
+    let o: Result&lt;i8, &amp;str&gt; = Ok(8);
+
+    o.expect_err(&quot;Should not get Ok value&quot;);
+}
+
+// ---------- Compile-time error ----------
+thread &#39;main&#39; panicked at &#39;Should not get Ok value: 8&#39;, libcore/result.rs:945:5</code></pre>
+<h2 id="unwrap-or-unwrap-or-default-and-unwrap-or-else" class="article-heading"><a href="#unwrap-or-unwrap-or-default-and-unwrap-or-else" class="headerlink" title="unwrap_or(), unwrap_or_default() and unwrap_or_else()"></a>unwrap_or(), unwrap_or_default() and unwrap_or_else()<a class="article-anchor" href="#unwrap-or-unwrap-or-default-and-unwrap-or-else" aria-hidden="true"></a></h2><blockquote>
+<p>💡 These are bit similar to <code>unwrap()</code>, If an <code>Option</code> type has <code>Some</code> value or a <code>Result</code> type has a <code>Ok</code> value, the value inside them passes to the next step. But when having <code>None</code> or <code>Err</code>, the functionalities are bit different.</p>
+</blockquote>
+<ul>
+<li><code>unwrap_or()</code> : With <code>None</code> or <code>Err</code>, <strong>the value you passes to <code>unwrap_or()</code></strong> is passing to the next step. But the data type of the value you passes  should match with the data type of the relevant <code>Some</code> or <code>Ok</code>.</li>
+</ul>
+<pre><code class="rust">fn main() {
+    let v1 = 8;
+    let v2 = 16;
+
+    let s_v1 = Some(8);
+    let n = None;
+
+    assert_eq!(s_v1.unwrap_or(v2), v1); // Some(v1) unwrap_or v2 = v1
+    assert_eq!(n.unwrap_or(v2), v2);    // None unwrap_or v2 = v2
+
+    let o_v1: Result&lt;i8, &amp;str&gt; = Ok(8);
+    let e: Result&lt;i8, &amp;str&gt; = Err(&quot;error&quot;);
+
+    assert_eq!(o_v1.unwrap_or(v2), v1); // Ok(v1) unwrap_or v2 = v1
+    assert_eq!(e.unwrap_or(v2), v2);    // Err unwrap_or v2 = v2
+}</code></pre>
+<ul>
+<li><code>unwrap_or_default()</code> :  With <code>None</code> or <code>Err</code>, <strong>the default value of the data type of the relevant <code>Some</code> or <code>Ok</code></strong>, is passing to the next step.</li>
+</ul>
+<pre><code class="rust">fn main() {
+    let v = 8;
+    let v_default = 0;
+
+    let s_v: Option&lt;i8&gt; = Some(8);
+    let n: Option&lt;i8&gt; = None;
+
+    assert_eq!(s_v.unwrap_or_default(), v);       // Some(v) unwrap_or_default = v
+    assert_eq!(n.unwrap_or_default(), v_default); // None unwrap_or_default = default value of v
+
+    let o_v: Result&lt;i8, &amp;str&gt; = Ok(8);
+    let e: Result&lt;i8, &amp;str&gt; = Err(&quot;error&quot;);
+
+    assert_eq!(o_v.unwrap_or_default(), v);       // Ok(v) unwrap_or_default = v
+    assert_eq!(e.unwrap_or_default(), v_default); // Err unwrap_or_default = default value of v
+}</code></pre>
+<ul>
+<li><code>unwrap_or_else()</code> : Similar to <code>unwrap_or()</code>. The only difference is, instead of passing a value, you have to pass a <strong><a href="a7.functions.html#Closures">closure</a></strong> which returns a value with the same data type of the relevant <code>Some</code> or <code>Ok</code>.</li>
+</ul>
+<pre><code class="rust">fn main() {
+    let v1 = 8;
+    let v2 = 16;
+
+    let s_v1 = Some(8);
+    let n = None;
+    let fn_v2_for_option = || 16;
+
+    assert_eq!(s_v1.unwrap_or_else(fn_v2_for_option), v1); // Some(v1) unwrap_or_else fn_v2 = v1
+    assert_eq!(n.unwrap_or_else(fn_v2_for_option), v2);    // None unwrap_or_else fn_v2 = v2
+
+    let o_v1: Result&lt;i8, &amp;str&gt; = Ok(8);
+    let e: Result&lt;i8, &amp;str&gt; = Err(&quot;error&quot;);
+    let fn_v2_for_result = |_| 16;
+
+    assert_eq!(o_v1.unwrap_or_else(fn_v2_for_result), v1); // Ok(v1) unwrap_or_else fn_v2 = v1
+    assert_eq!(e.unwrap_or_else(fn_v2_for_result), v2);    // Err unwrap_or_else fn_v2 = v2
+}</code></pre>
+
+              </div>
+              <footer class="article-footer">
+                <time class="article-footer-updated" datetime="2019-02-06T10:00:22.000Z" itemprop="dateModified">Last updated: 2019-02-06</time>
+                <a href="e3.option_and_result.html" class="article-footer-prev" title="Option and Result"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="e5.error_and_none_propagation.html" class="article-footer-next" title="Error and None Propagation"><span>Next</span><i class="fa fa-chevron-right"></i></a>
+              </footer>
+            </div>
+          </div>
+          <aside id="article-toc" role="navigation">
+            <div id="article-toc-inner">
+              <strong class="sidebar-title">What's on this Page</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#unwrap"><span class="toc-text">unwrap()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#expect"><span class="toc-text">expect()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unwrap-err-and-expect-err-for-Result-types"><span class="toc-text">unwrap_err() and expect_err() for Result types</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unwrap-or-unwrap-or-default-and-unwrap-or-else"><span class="toc-text">unwrap_or(), unwrap_or_default() and unwrap_or_else()</span></a></li></ol>
+              <a href="#" id="article-toc-top">Back to Top ⇡</a>
+            </div>
+          </aside>
+        </div>
+      </article>
+      <aside id="sidebar" role="navigation">
+  <div class="inner">
+    <strong class="sidebar-title">Documentation</strong><a href="index.html" class="sidebar-link">Overview</a><strong class="sidebar-title">Basics</strong><a href="a1.why_rust.html" class="sidebar-link">Why Rust?</a><a href="a2.installation.html" class="sidebar-link">Installation</a><a href="a3.hello_world.html" class="sidebar-link">Hello World</a><a href="a4.cargo,crates_and_basic_project_structure.html" class="sidebar-link">Cargo, Crates and Basic Project Structure</a><a href="a5.comments_and_documenting_the_code.html" class="sidebar-link">Comments and Documenting the code</a><a href="a6.variable_bindings,constants_and_statics.html" class="sidebar-link">Variable bindings, Constants and Statics</a><a href="a7.functions.html" class="sidebar-link">Functions</a><a href="a8.primitive_data_types.html" class="sidebar-link">Primitive Data Types</a><a href="a9.operators.html" class="sidebar-link">Operators</a><a href="a10.control_flows.html" class="sidebar-link">Control Flows</a><strong class="sidebar-title">Beyond The Basics</strong><a href="b1.vectors.html" class="sidebar-link">Vectors</a><a href="b2.structs.html" class="sidebar-link">Structs</a><a href="b3.enums.html" class="sidebar-link">Enums</a><a href="b4.generics.html" class="sidebar-link">Generics</a><a href="b5.impls_and_traits.html" class="sidebar-link">Impls and Traits</a><strong class="sidebar-title">The Tough Part</strong><a href="c1.ownership.html" class="sidebar-link">Ownership</a><a href="c2.borrowing.html" class="sidebar-link">Borrowing</a><a href="c3.lifetimes.html" class="sidebar-link">Lifetimes</a><strong class="sidebar-title">Let's Get It Started</strong><a href="d1.code_organization.html" class="sidebar-link">Code Organization</a><a href="d2.functions.html" class="sidebar-link">Functions</a><a href="d3.modules.html" class="sidebar-link">Modules</a><a href="d4.crates.html" class="sidebar-link">Crates</a><a href="d5.workspaces.html" class="sidebar-link">Workspaces</a><a href="d6.use.html" class="sidebar-link">Use</a><a href="d7.std_primitives_and_preludes.html" class="sidebar-link">STD, Primitives and Preludes</a><strong class="sidebar-title">Error Handling</strong><a href="e1.smart_compiler.html" class="sidebar-link">Smart Compiler</a><a href="e2.panicking.html" class="sidebar-link">Panicking</a><a href="e3.option_and_result.html" class="sidebar-link">Option and Result</a><a href="e4.unwrap_and_expect.html" class="sidebar-link current">Unwrap and Expect</a><a href="e5.error_and_none_propagation.html" class="sidebar-link">Error and None Propagation</a><a href="e6.combinators.html" class="sidebar-link">Combinators</a><a href="e7.custom_error_types.html" class="sidebar-link">Custom Error Types</a>
+  </div>
+</aside>
+    </div>
+  </div>
+</div>
+
+    <div id="footer-outer">
+  <footer id="footer" class="wrapper">
+    <div class="inner">
+      <div id="footer-copyright">
+        &copy; 2020 <a href="https://github.com/dumindu" rel="external nofollow noreferrer" target="_blank">Dumindu Madunuwan</a><br>
+        Powered by <a href="http://hexo.io/" rel="external nofollow noreferrer" target="_blank">Hexo</a> &amp; <a href="https://github.com/hexojs/site/tree/master/themes/navy" rel="external nofollow noreferrer" target="_blank">Navy</a> theme.
+      </div>
+      <div id="footer-links">
+        <a class="footer-link" href="https://www.buymeacoffee.com/dumindu" rel="external nofollow noreferrer" target="_blank">
+          <img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" >
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
+  </div>
+  <div id="mobile-nav-dimmer"></div>
+  <nav id="mobile-nav">
+  <div id="mobile-nav-inner">
+    <ul id="mobile-nav-list">
+      <a href="/docs/a1.why_rust.html" class="mobile-nav-link">Docs</a>
+      <li class="mobile-nav-item">
+        <a href="https://github.com/learning-rust/site" class="mobile-nav-link" rel="external" target="_blank">GitHub</a>
+      </li>
+    </ul>
+    
+      <strong class="mobile-nav-title">Documentation</strong><a href="index.html" class="mobile-nav-link">Overview</a><strong class="mobile-nav-title">Basics</strong><a href="a1.why_rust.html" class="mobile-nav-link">Why Rust?</a><a href="a2.installation.html" class="mobile-nav-link">Installation</a><a href="a3.hello_world.html" class="mobile-nav-link">Hello World</a><a href="a4.cargo,crates_and_basic_project_structure.html" class="mobile-nav-link">Cargo, Crates and Basic Project Structure</a><a href="a5.comments_and_documenting_the_code.html" class="mobile-nav-link">Comments and Documenting the code</a><a href="a6.variable_bindings,constants_and_statics.html" class="mobile-nav-link">Variable bindings, Constants and Statics</a><a href="a7.functions.html" class="mobile-nav-link">Functions</a><a href="a8.primitive_data_types.html" class="mobile-nav-link">Primitive Data Types</a><a href="a9.operators.html" class="mobile-nav-link">Operators</a><a href="a10.control_flows.html" class="mobile-nav-link">Control Flows</a><strong class="mobile-nav-title">Beyond The Basics</strong><a href="b1.vectors.html" class="mobile-nav-link">Vectors</a><a href="b2.structs.html" class="mobile-nav-link">Structs</a><a href="b3.enums.html" class="mobile-nav-link">Enums</a><a href="b4.generics.html" class="mobile-nav-link">Generics</a><a href="b5.impls_and_traits.html" class="mobile-nav-link">Impls and Traits</a><strong class="mobile-nav-title">The Tough Part</strong><a href="c1.ownership.html" class="mobile-nav-link">Ownership</a><a href="c2.borrowing.html" class="mobile-nav-link">Borrowing</a><a href="c3.lifetimes.html" class="mobile-nav-link">Lifetimes</a><strong class="mobile-nav-title">Let's Get It Started</strong><a href="d1.code_organization.html" class="mobile-nav-link">Code Organization</a><a href="d2.functions.html" class="mobile-nav-link">Functions</a><a href="d3.modules.html" class="mobile-nav-link">Modules</a><a href="d4.crates.html" class="mobile-nav-link">Crates</a><a href="d5.workspaces.html" class="mobile-nav-link">Workspaces</a><a href="d6.use.html" class="mobile-nav-link">Use</a><a href="d7.std_primitives_and_preludes.html" class="mobile-nav-link">STD, Primitives and Preludes</a><strong class="mobile-nav-title">Error Handling</strong><a href="e1.smart_compiler.html" class="mobile-nav-link">Smart Compiler</a><a href="e2.panicking.html" class="mobile-nav-link">Panicking</a><a href="e3.option_and_result.html" class="mobile-nav-link">Option and Result</a><a href="e4.unwrap_and_expect.html" class="mobile-nav-link current">Unwrap and Expect</a><a href="e5.error_and_none_propagation.html" class="mobile-nav-link">Error and None Propagation</a><a href="e6.combinators.html" class="mobile-nav-link">Combinators</a><a href="e7.custom_error_types.html" class="mobile-nav-link">Custom Error Types</a>
+    
+  </div>
+  <div id="mobile-lang-select-wrap">
+    <span id="mobile-lang-select-label"><i class="fa fa-language"></i><span>English</span></span>
+    <select id="mobile-lang-select" data-canonical="docs/e4.unwrap_and_expect.html">
+      
+        <option value="en" selected>English</option>
+      
+    </select>
+  </div>
+</nav>
+  <!-- Scripts -->
+<!-- build:js build/js/main.js -->
+
+<script src="/js/lang_select.js"></script>
+
+
+<script src="/js/mobile_nav.js"></script>
+
+<!-- endbuild -->
+<!-- Algolia -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/highlight.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.1/build/languages/rust.min.js"></script>
+<script type="text/javascript">
+document.getElementById('search-input-wrap').classList.add('on');
+docsearch({
+  apiKey: '219b278e94416804a2d4bb47b3bf3d0b',
+  indexName: 'learning_rust',
+  inputSelector: '#search-input'
+});
+
+hljs.initHighlightingOnLoad();
+</script>
+
+
+</body>
+</html>
