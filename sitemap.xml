@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://learning-rust.github.io/docs/a3.hello_world.html</loc>
+    <loc>https://learning-rust.github.io/docs/a6.variable_bindings,constants_and_statics.html</loc>
     
-    <lastmod>2020-07-04T07:14:06.607Z</lastmod>
+    <lastmod>2020-07-17T19:46:03.000Z</lastmod>
     
   </url>
   
@@ -17,13 +17,6 @@
   
   <url>
     <loc>https://learning-rust.github.io/docs/a5.comments_and_documenting_the_code.html</loc>
-    
-    <lastmod>2020-06-14T13:56:03.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://learning-rust.github.io/docs/a6.variable_bindings,constants_and_statics.html</loc>
     
     <lastmod>2020-06-14T13:56:03.000Z</lastmod>
     
@@ -58,6 +51,13 @@
   </url>
   
   <url>
+    <loc>https://learning-rust.github.io/docs/a2.installation.html</loc>
+    
+    <lastmod>2020-04-26T16:12:11.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://learning-rust.github.io/docs/a1.why_rust.html</loc>
     
     <lastmod>2020-04-26T16:12:11.000Z</lastmod>
@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://learning-rust.github.io/docs/a2.installation.html</loc>
+    <loc>https://learning-rust.github.io/docs/a3.hello_world.html</loc>
     
     <lastmod>2020-04-26T16:12:11.000Z</lastmod>
     

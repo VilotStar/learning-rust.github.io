@@ -128,7 +128,7 @@ let z = {
 <p>The <strong><code>static</code></strong> keyword is used to define a <em>“global variable”</em> type facility. There is only one instance for each value, and it’s at a <strong>fixed location in memory</strong>.</p>
 <pre><code class="rust">static N: i32 = 5;</code></pre>
 <blockquote>
-<p>💭 While you need constants, aways use <code>const</code>, instead of <code>static</code>. It’s pretty rare that you actually want a memory location associated with your constant, and using a const allows for optimizations like <a href="https://en.wikipedia.org/wiki/Constant_folding#Constant_propagation" target="_blank" rel="noopener external nofollow noreferrer">constant propagation</a>, not only in your crate but also in downstream crates.</p>
+<p>💭 While you need constants, always use <code>const</code>, instead of <code>static</code>. It’s pretty rare that you actually want a memory location associated with your constant, and using a const allows for optimizations like <a href="https://en.wikipedia.org/wiki/Constant_folding#Constant_propagation" target="_blank" rel="noopener external nofollow noreferrer">constant propagation</a>, not only in your crate but also in downstream crates.</p>
 </blockquote>
 <h2 id="Variable-Shadowing" class="article-heading"><a href="#Variable-Shadowing" class="headerlink" title="Variable Shadowing"></a>Variable Shadowing<a class="article-anchor" href="#Variable-Shadowing" aria-hidden="true"></a></h2><p>Sometimes, while dealing with data, initially we get them in one unit but need to transform them into another unit for further processing. In this situation, instead of using different variable names, Rust allows us to <strong>redeclare the same variable with a different data type and/ or with a different mutability setting</strong>. We call this Shadowing.</p>
 <pre><code class="rust">fn main() {
@@ -154,7 +154,7 @@ fn main() {
 
               </div>
               <footer class="article-footer">
-                <time class="article-footer-updated" datetime="2020-06-14T13:56:03.000Z" itemprop="dateModified">Last updated: 2020-06-14</time>
+                <time class="article-footer-updated" datetime="2020-07-17T19:46:03.000Z" itemprop="dateModified">Last updated: 2020-07-17</time>
                 <a href="a5.comments_and_documenting_the_code.html" class="article-footer-prev" title="Comments and Documenting the code"><i class="fa fa-chevron-left"></i><span>Prev</span></a><a href="a7.functions.html" class="article-footer-next" title="Functions"><span>Next</span><i class="fa fa-chevron-right"></i></a>
               </footer>
             </div>
