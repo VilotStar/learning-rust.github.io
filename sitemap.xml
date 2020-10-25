@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://learning-rust.github.io/docs/d6.use.html</loc>
+    
+    <lastmod>2020-10-25T13:08:34.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://learning-rust.github.io/docs/a9.operators.html</loc>
+    
+    <lastmod>2020-10-25T10:16:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://learning-rust.github.io/docs/a8.primitive_data_types.html</loc>
+    
+    <lastmod>2020-10-25T10:15:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://learning-rust.github.io/docs/a6.variable_bindings,constants_and_statics.html</loc>
     
     <lastmod>2020-07-17T19:46:03.000Z</lastmod>
@@ -17,13 +38,6 @@
   
   <url>
     <loc>https://learning-rust.github.io/docs/a5.comments_and_documenting_the_code.html</loc>
-    
-    <lastmod>2020-06-14T13:56:03.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://learning-rust.github.io/docs/a8.primitive_data_types.html</loc>
     
     <lastmod>2020-06-14T13:56:03.000Z</lastmod>
     
@@ -93,13 +107,6 @@
   </url>
   
   <url>
-    <loc>https://learning-rust.github.io/docs/a9.operators.html</loc>
-    
-    <lastmod>2019-12-29T16:13:33.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://learning-rust.github.io/docs/e2.panicking.html</loc>
     
     <lastmod>2019-12-29T04:17:08.000Z</lastmod>
@@ -142,13 +149,6 @@
   </url>
   
   <url>
-    <loc>https://learning-rust.github.io/docs/d6.use.html</loc>
-    
-    <lastmod>2019-02-08T08:56:49.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://learning-rust.github.io/docs/d4.crates.html</loc>
     
     <lastmod>2019-02-08T08:56:49.000Z</lastmod>
@@ -184,14 +184,14 @@
   </url>
   
   <url>
-    <loc>https://learning-rust.github.io/docs/b3.enums.html</loc>
+    <loc>https://learning-rust.github.io/docs/b1.vectors.html</loc>
     
     <lastmod>2019-02-07T06:27:21.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://learning-rust.github.io/docs/b1.vectors.html</loc>
+    <loc>https://learning-rust.github.io/docs/b3.enums.html</loc>
     
     <lastmod>2019-02-07T06:27:21.000Z</lastmod>
     

@@ -89,7 +89,7 @@
                 <blockquote>
 <p><a href="https://doc.rust-lang.org/beta/book/first-edition/generics.html" target="_blank" rel="noopener external nofollow noreferrer">📖</a> Sometimes, when writing a function or data type, we may want it to work for multiple types of arguments. In Rust, we can do this with generics.</p>
 </blockquote>
-<p>💭 The concept is, instead of declaring a specific data type we use an uppercase letter(or <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank" rel="noopener external nofollow noreferrer">PascalCase</a> identifier). ex, <strong>instead of x : u8</strong> we use <strong>x : T</strong> . But, we have to inform to the compiler that T is a generic type(can be any type) by adding <code>&lt;T&gt;</code> at first.</p>
+<p>💭 The concept is, instead of declaring a specific data type we use an uppercase letter(or <a href="https://en.wikipedia.org/wiki/Camel_case" target="_blank" rel="noopener external nofollow noreferrer">PascalCase</a> identifier). ex, <strong>instead of x : u8</strong> we use <strong>x : T</strong> . but we have to inform to the compiler that T is a generic type(can be any type) by adding <code>&lt;T&gt;</code> at first.</p>
 <h3 id="Generalizing-functions" class="article-heading"><a href="#Generalizing-functions" class="headerlink" title="Generalizing functions"></a>Generalizing functions<a class="article-anchor" href="#Generalizing-functions" aria-hidden="true"></a></h3><pre><code class="rust">fn takes_anything&lt;T&gt;(x: T) { // x has type T, T is a generic type
 }
 
