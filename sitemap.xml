@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://learning-rust.github.io/docs/d5.workspaces.html</loc>
+    
+    <lastmod>2020-10-31T03:34:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://learning-rust.github.io/docs/d6.use.html</loc>
     
     <lastmod>2020-10-25T13:08:34.000Z</lastmod>
@@ -150,13 +157,6 @@
   
   <url>
     <loc>https://learning-rust.github.io/docs/d4.crates.html</loc>
-    
-    <lastmod>2019-02-08T08:56:49.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://learning-rust.github.io/docs/d5.workspaces.html</loc>
     
     <lastmod>2019-02-08T08:56:49.000Z</lastmod>
     
